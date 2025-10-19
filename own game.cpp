@@ -61,35 +61,8 @@ char display_question_with_answers(map<pair<int, int>, Question>& questions_dict
 
 int main()
 {
-    setlocale(LC_ALL, "RU");
-    ////проверка вывода вопроса 
-    //std::map<std::pair<int, int>, Question> questions_dict;
-
-    ////вопрос(0, 1) первая тема стоимость 300
-    //questions_dict[{0, 1}] = Question{
-    //    "ИСТОРИЯ",
-    //    300,
-    //    "В каком году произошло Крещение Руси?",
-    //    {"898 год", "988 год", "1054 год", "1147 год"},
-    //    'B'
-    //};
-    //// вопрос(1, 2) вторая тема стоимость 500
-    //questions_dict[{1, 2}] = Question{
-    //    "УНИВЕРСИТЕТ",
-    //    500,
-    //    "В честь кого назван бфу?",
-    //    {"Ломоносов", "Менделеев", "Кант", "Пушкин"},
-    //    'C'
-    //};
-
-    //char answer = display_question_with_answers(questions_dict); //вызов функции 
-
-    //if (answer != 'X') {
-    //    std::cout << "Вы ввели: " << answer << "\n";
-    //}
-
-    return 0;
     
 }
+
 
 
