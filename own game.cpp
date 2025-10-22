@@ -1,4 +1,4 @@
-﻿
+﻿#include "Header.h"
 #include <iostream>
 #include <string>
 #include <vector>
@@ -8,22 +8,8 @@
 
 using namespace std;
 
-struct Question {
-    string topic;
-    int cost;
-    string text;
-    vector<string> options; //состоять будет из A, B, C, D
-    char correct;
-};
-
-map<pair<int, int>, Question> questions_dict; 
-
-char display_question_with_answers(map<pair<int, int>, Question>& questions_dict) 
+char display_question_with_answers(const map<pair<int, int>, Question>& questions_dict,  int i, int j) 
 {
-    int i, j;
-    cout << "Введите сторку и столбец вашего вопроса: ";
-    cin >> i >> j;
-
     auto key = make_pair(i, j); //создает пару из двух целых чисел i и j
     auto it = questions_dict.find(key); //ищем элемент в map по ключу key и возвращаем итератор(указатель на элемент)
     if (it == questions_dict.end()) 
@@ -52,17 +38,12 @@ char display_question_with_answers(map<pair<int, int>, Question>& questions_dict
     if (answer != 'A' && answer != 'B' && answer != 'C' && answer != 'D') 
     {
         cout << "Некорректный ввод ответа, введите A, B, C или D\n";
-        return display_question_with_answers(questions_dict);
+        return display_question_with_answers(questions_dict, i, j);
     }
     return answer;
 }
 
 
-
-int main()
-{
-    
-}
 
 
 
