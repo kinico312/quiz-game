@@ -4,11 +4,11 @@
 #include <vector>
 #include <string>
 #include "head.hpp"
-
 using namespace std;
 
 void print_questions_matrix() {
-
+    
+  
     vector<string> topics_in_order;
     map<string, bool> topic_seen;
 
@@ -49,7 +49,7 @@ void print_questions_matrix() {
                     if (!topic_seen[topic]) {
                         topics_in_order.push_back(topic);
                         topic_seen[topic] = true;
-                        break; 
+                        break;
                     }
                 }
             }
@@ -57,37 +57,37 @@ void print_questions_matrix() {
     }
 
 
-    const int TOPIC_WIDTH = 20;
+    const int TOPIC_WIDTH = 30;
     const int COST_WIDTH = 10;
     const int COLS = 5;
 
     auto print_line = [&]() {
-        cout << "├";
+        cout << "|";
         for (int i = 0; i <= COLS; i++) {
             int width = (i == 0) ? TOPIC_WIDTH : COST_WIDTH;
-            cout << string(width, '─');
-            if (i < COLS) cout << "┼";
-            else cout << "┤";
+            cout << string(width, '-');
+            if (i < COLS) cout << "|";
+            else cout << "|";
         }
         cout << endl;
         };
 
-    cout << "┌" << string(TOPIC_WIDTH, '─') << "┼";
+    cout << "+" << string(TOPIC_WIDTH, '-') << "+";
     for (int i = 0; i < COLS; i++) {
-        cout << string(COST_WIDTH, '─');
-        if (i < COLS - 1) cout << "┼";
+        cout << string(COST_WIDTH, '-');
+        if (i < COLS - 1) cout << "+";
     }
-    cout << "┐" << endl;
+    cout << "+" << endl;
 
     for (size_t topic_idx = 0; topic_idx < topics_in_order.size(); topic_idx++) {
         string topic = topics_in_order[topic_idx];
 
-        string topic_display = to_string(topic_idx ) + ")" + topic;
-        if (topic_display.length() > TOPIC_WIDTH - 2) {
+        string topic_display = to_string(topic_idx+1)+ ")" + topic;
+        /*if (topic_display.length() > TOPIC_WIDTH - 2) {
             topic_display = topic_display.substr(0, TOPIC_WIDTH - 3) + ".";
-        }
-
-        cout << "│ " << left << setw(TOPIC_WIDTH - 1) << topic_display;
+        }*/
+        
+        cout << "| " << left << setw(TOPIC_WIDTH - 1) << (topic_display);
 
         vector<int> costs = topic_costs[topic];
 
@@ -105,26 +105,26 @@ void print_questions_matrix() {
             int left_padding = padding / 2;
             int right_padding = padding - left_padding;
 
-            cout << "│" << string(left_padding, ' ') << cost_display << string(right_padding, ' ');
+            cout << "|" << string(left_padding, ' ') << cost_display << string(right_padding, ' ');
         }
-        cout << "│" << endl;
-
+        cout << "|" << endl;
+        
         if (topic_idx < topics_in_order.size() - 1) {
             print_line();
         }
     }
 
-    cout << "└" << string(TOPIC_WIDTH, '─') << "┴";
+    cout << "+" << string(TOPIC_WIDTH, '-') << "+";
     for (int i = 0; i < COLS; i++) {
-        cout << string(COST_WIDTH, '─');
-        if (i < COLS - 1) cout << "┴";
+        cout << string(COST_WIDTH, '-');
+        if (i < COLS - 1) cout << "+";
     }
-    cout << "┘" << endl;
+    cout << "+" << endl;
 
-    cout << "\nПорядок тем в матрице: ";
-    for (size_t i = 0; i < topics_in_order.size(); i++) {
-        cout << (i) << ")" << topics_in_order[i];
-        if (i < topics_in_order.size() - 1) cout << ", ";
-    }
+   /* cout << "\nПорядок тем в матрице: ";
+    for (size_t i = 1; i < topics_in_order.size()+1; i++) {
+        cout << (i) << ")" << topics_in_order[i-1];
+        if (i < topics_in_order.size()-1) cout << ", ";
+    }*/
     cout << endl;
 }

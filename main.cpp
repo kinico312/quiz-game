@@ -7,15 +7,14 @@ int main()
 {
     setlocale(LC_ALL, "RU");
 
-
     auto loaded_questions = dictionary();
 
     if (loaded_questions.empty()) {
-        cout << "Íå óäàëîñü çàãðóçèòü âîïðîñû èç ôàéëà!\n";
+        cout << "ÐÐµ ÑƒÐ´Ð°Ð»Ð¾ÑÑŒ Ð·Ð°Ð³Ñ€ÑƒÐ·Ð¸Ñ‚ÑŒ Ð²Ð¾Ð¿Ñ€Ð¾ÑÑ‹ Ð¸Ð· Ñ„Ð°Ð¹Ð»Ð°!\n";
         return 1;
     }
 
-    cout << "Óñïåøíî çàãðóæåíî " << loaded_questions.size() << " âîïðîñîâ!\n\n";
+    cout << "Ð£ÑÐ¿ÐµÑˆÐ½Ð¾ Ð·Ð°Ð³Ñ€ÑƒÐ¶ÐµÐ½Ð¾ " << loaded_questions.size() << " Ð²Ð¾Ð¿Ñ€Ð¾ÑÐ¾Ð²!\n\n";
 
 
     print_questions_matrix();
@@ -26,7 +25,7 @@ int main()
     char answer = display_question_with_answers();
 
     if (answer != 'X') {
-        cout << "Âû ââåëè: " << answer << "\n";
+        cout << "Ð’Ñ‹ Ð²Ð²ÐµÐ»Ð¸: " << answer << "\n";
     }
 
     return 0;

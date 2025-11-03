@@ -11,37 +11,39 @@ using namespace std;
 char display_question_with_answers()
 {
     int i, j;
-    cout << "Ââåäèòå ñòðîêó è ñòîëáåö âàøåãî âîïðîñà: ";
-    cin >> i >> j;
+    cout << "Ð’Ñ‹Ð±ÐµÑ€Ð¸Ñ‚Ðµ Ð½Ð¾Ð¼ÐµÑ€ Ñ‚ÐµÐ¼Ñ‹ : ";
+    cin >> i; i -= 1;
+    cout << "Ð’Ñ‹Ð±ÐµÑ€Ð¸Ñ‚Ðµ Ð½Ð¾Ð¼ÐµÑ€ Ð²Ð¾Ð¿Ñ€Ð¾ÑÐ° : ";
+    cin >> j;
+    j -= 1;
 
     auto key = make_pair(i, j);
     auto it = questions_dict.find(key);
     if (it == questions_dict.end())
     {
-        cout << "Âîïðîñ ñ êîîðäèíàòàìè " << i << "; " << j << " íå íàéäåí\n";
+        cout << "Ð²Ð¾Ð¿Ñ€Ð¾Ñ Ð¿Ð¾Ð´ Ð½Ð¾Ð¼ÐµÑ€Ð°Ð¼Ð¸ " << i << "; " << j << " Ð½Ðµ ÑÑƒÑ‰ÐµÑÑ‚Ð²ÑƒÐµÑ‚\n";
         return 'X';
     }
     const Question& q = it->second;
 
-    const int WIDTH = 40;
+    const int WIDTH = 70;
     cout << "+" << string(WIDTH, '-') << "+\n";
-    cout << "| Òåìà: " << left << setw(33) << q.topic << "|\n";
-    cout << "| Ñòîèìîñòü: " << left << setw(28) << (to_string(q.cost) + " áàëëîâ") << "|\n";
+    cout << "| Ð¢ÐµÐ¼Ð°Ð²Ñ„Ð²Ð²Ñ†Ñ„Ð²: " << left << setw(WIDTH-29) << q.topic << left << setw(22)<< "Ð¡Ñ‚Ð¾Ð¸Ð¼Ð¾ÑÑ‚ÑŒ:"+(to_string(q.cost) + " Ð±Ð°Ð»Ð»Ð¾Ð² ") << "| \n";
     cout << "+" << string(WIDTH, '-') << "+\n";
-    cout << "| " << left << setw(39) << q.text << "|\n";
+    cout << left << setw((WIDTH/2)-(q.text.length())/2) <<"| " << left << setw((WIDTH / 2) + (q.text.length()) / 2+1) << q.text << "|\n";
     cout << "+" << string(WIDTH, '-') << "+\n";
-    cout << "| A) " << left << setw(15) << q.options[0] << " B) " << left << setw(17) << q.options[1] << "|\n";
-    cout << "| C) " << left << setw(15) << q.options[2] << " D) " << left << setw(17) << q.options[3] << "|\n";
+    cout << "| A) " << left << setw(WIDTH-4) << q.options[0] << "|\n| B) " << left << setw(WIDTH-4) << q.options[1] ;
+    cout << "|\n| C) " << left << setw(WIDTH -4) << q.options[2] << "|\n| D) " << left << setw(WIDTH-4) << q.options[3]<<"|\n";
     cout << "+" << string(WIDTH, '-') << "+\n";
 
-    cout << "Âàø îòâåò: ";
+    cout << "Ð’Ð°Ñˆ Ð¾Ñ‚Ð²ÐµÑ‚: ";
     char answer;
     cin >> answer;
     answer = toupper(static_cast<unsigned char>(answer));
 
     if (answer != 'A' && answer != 'B' && answer != 'C' && answer != 'D')
     {
-        cout << "Íåêîððåêòíûé ââîä îòâåòà, ââåäèòå A, B, C èëè D\n";
+        cout << "ÐÐµÐ²ÐµÑ€Ð½Ñ‹Ð¹ Ð²Ð²Ð¾Ð´, Ð²Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð¾Ð´Ð¸Ð½ Ð¸Ð· ÑÐ¸Ð¼Ð²Ð¾Ð»Ð¾Ð²: A, B, C Ð¸Ð»Ð¸ D\n";
         return display_question_with_answers();
     }
     return answer;
