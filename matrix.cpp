@@ -7,7 +7,7 @@
 using namespace std;
 
 void print_questions_matrix() {
-    ifstream file("qu100.csv");
+    ifstream file("questions.csv");
 
     if (!file.is_open()) {
         cout << "Не удалось открыть файл!" << endl;
@@ -75,4 +75,5 @@ void print_questions_matrix() {
     }
 
     cout << "▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄" << endl;
+
 }
