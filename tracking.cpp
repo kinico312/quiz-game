@@ -1,56 +1,41 @@
-#include "head.hpp"
+﻿#include "head.hpp"
 #include <mutex>
 
-namespace Tracking {
-
-    namespace {
-        // Глобальное хранилище текущего пользователя с защитой от гонок
-        User g_current_user{ "", 0 };
-        bool g_initialized = false;
-        std::mutex g_mutex;
-    }
-
-    void init_default_user(const std::string& name)
-    {
-        std::lock_guard<std::mutex> lock(g_mutex);
-        g_current_user.name = name;
-        g_current_user.score = 0;
-        g_initialized = true;
-    }
-
-    void add_score(int points) noexcept
-    {
-        try {
-            std::lock_guard<std::mutex> lock(g_mutex);
-            if (!g_initialized) {
-                g_current_user.name = "Player";
-                g_current_user.score = 0;
-                g_initialized = true;
-            }
-            if (points > 0) {
-                g_current_user.score += points;
-            }
-        } catch (...) {
-            // По требованиям устойчивости — гасим ошибки
-        }
-    }
-
-    const User& current_user() noexcept
-    {
-        try {
-            std::lock_guard<std::mutex> lock(g_mutex);
-            if (!g_initialized) {
-                g_current_user.name = "Player";
-                g_current_user.score = 0;
-                g_initialized = true;
-            }
-            return g_current_user;
-        } catch (...) {
-            // В крайне маловероятном случае возвратим статический запасной объект
-            static User fallback{ "Player", 0 };
-            return fallback;
-        }
-    }
+namespace {
+    std::map<std::string, int> g_players; //список игроков с именем и очками
+    std::string g_current_player = ""; //имя активного игрока
+    std::mutex g_mutex;
 }
 
+void create_user(const std::string& name)
+{
+    std::lock_guard<std::mutex> lock(g_mutex);
+    g_players[name] = 0;
+    g_current_player = name; //делаем активным
+}
 
+const std::string& get_current_player_name() {
+    std::lock_guard<std::mutex> lock(g_mutex);
+    return g_current_player;
+}
+
+int get_current_player_score()
+{
+    std::lock_guard<std::mutex> lock(g_mutex);
+    if (g_current_player.empty())
+    {
+        return 0;
+    }
+    auto it = g_players.find(g_current_player);
+    return (it != g_players.end()) ? it->second : 0;
+}
+
+void add_score_to_current_player(int points)
+{
+    if (points <= 0) return;
+    std::lock_guard<std::mutex> lock(g_mutex);
+    if (!g_current_player.empty())
+    {
+        g_players[g_current_player] += points;
+    }
+}
