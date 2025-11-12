@@ -1,4 +1,4 @@
-#include <iostream>
+ï»¿#include <iostream>
 #include "head.hpp"
 #include <string>
 #include <vector>
@@ -11,37 +11,38 @@ using namespace std;
 char display_question_with_answers()
 {
     int i, j;
-    cout << "Ââåäèòå íîìåð ñòðîêè è ñòîëáöà âîïðîñà: ";
-    cin >> i >> j;
-
+    cout << "Ð’Ñ‹Ð±ÐµÑ€Ð¸Ñ‚Ðµ Ð½Ð¾Ð¼ÐµÑ€ Ñ‚ÐµÐ¼Ñ‹ : ";
+    cin >> i; i -= 1;
+    cout << "Ð’Ñ‹Ð±ÐµÑ€Ð¸Ñ‚Ðµ Ð½Ð¾Ð¼ÐµÑ€ Ð²Ð¾Ð¿Ñ€Ð¾ÑÐ° : ";
+    cin >> j; j -= 1;
+   
     auto key = make_pair(i, j);
     auto it = questions_dict.find(key);
     if (it == questions_dict.end())
     {
-        cout << "Âîïðîñ ñ êîîðäèíàòàìè " << i << "; " << j << " íå íàéäåí\n";
+        cout << "Ð²Ð¾Ð¿Ñ€Ð¾Ñ Ð¿Ð¾Ð´ Ð½Ð¾Ð¼ÐµÑ€Ð°Ð¼Ð¸ " << i << "; " << j << " Ð½Ðµ Ð½Ð°Ð¹Ð´ÐµÐ½\n";
         return 'X';
     }
     const Question& q = it->second;
 
-    const int WIDTH = 40;
+    const int WIDTH = 70;
     cout << "+" << string(WIDTH, '-') << "+\n";
-    cout << "| Òåìà: " << left << setw(33) << q.topic << "|\n";
-    cout << "| Ñòîèìîñòü: " << left << setw(28) << (to_string(q.cost) + " î÷êîâ") << "|\n";
+    cout << "| Ð¢ÐµÐ¼Ð°: " << left << setw(WIDTH - 29) << q.topic << left << setw(22) << "Ð¡Ñ‚Ð¾Ð¸Ð¼Ð¾ÑÑ‚ÑŒ:" + (to_string(q.cost) + " Ð±Ð°Ð»Ð»Ð¾Ð² ") << "| \n";
     cout << "+" << string(WIDTH, '-') << "+\n";
-    cout << "| " << left << setw(39) << q.text << "|\n";
+    cout << left << setw((WIDTH / 2) - (q.text.length()) / 2) << "| " << left << setw((WIDTH / 2) + (q.text.length()) / 2 + 1) << q.text << "|\n";
     cout << "+" << string(WIDTH, '-') << "+\n";
-    cout << "| A) " << left << setw(15) << q.options[0] << " B) " << left << setw(17) << q.options[1] << "|\n";
-    cout << "| C) " << left << setw(15) << q.options[2] << " D) " << left << setw(17) << q.options[3] << "|\n";
+    cout << "| A) " << left << setw(WIDTH - 4) << q.options[0] << "|\n| B) " << left << setw(WIDTH - 4) << q.options[1];
+    cout << "|\n| C) " << left << setw(WIDTH - 4) << q.options[2] << "|\n| D) " << left << setw(WIDTH - 4) << q.options[3] << "|\n";
     cout << "+" << string(WIDTH, '-') << "+\n";
 
-    cout << "Âàø îòâåò: ";
+    cout << "Ð’Ð°Ñˆ Ð¾Ñ‚Ð²ÐµÑ‚: ";
     char answer;
     cin >> answer;
     answer = toupper(static_cast<unsigned char>(answer));
 
     if (answer != 'A' && answer != 'B' && answer != 'C' && answer != 'D')
     {
-        cout << "Íåêîððåêòíûé ôîðìàò îòâåòà, ââåäèòå A, B, C èëè D\n";
+        cout << "ÐÐµÐºÐ¾Ñ€Ñ€ÐµÐºÑ‚Ð½Ñ‹Ð¹ Ñ„Ð¾Ñ€Ð¼Ð°Ñ‚ Ð¾Ñ‚Ð²ÐµÑ‚Ð°, Ð²Ð²ÐµÐ´Ð¸Ñ‚Ðµ A, B, C Ð¸Ð»Ð¸ D\n";
         return display_question_with_answers();
     }
 
@@ -56,28 +57,28 @@ char display_question_with_answers()
 
     bool isCorrect = (answerIndex == q.correct);
     if (isCorrect) {
-        cout << "Âåðíî! +" << q.cost << " î÷êîâ\n";
-        // Îáíîâëÿåì î÷êè ïîëüçîâàòåëÿ, íî íå äà¸ì îøèáêàì ðóøèòü îñíîâíîé ïîòîê
+        cout << "Ð’ÐµÑ€Ð½Ð¾! +" << q.cost << " Ð¾Ñ‡ÐºÐ¾Ð²\n";
+        // ÐžÐ±Ð½Ð¾Ð²Ð»ÑÐµÐ¼ Ð¾Ñ‡ÐºÐ¸ Ð¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»Ñ, Ð½Ð¾ Ð½Ðµ Ð´Ð°Ñ‘Ð¼ Ð¾ÑˆÐ¸Ð±ÐºÐ°Ð¼ Ñ€ÑƒÑˆÐ¸Ñ‚ÑŒ Ð¾ÑÐ½Ð¾Ð²Ð½Ð¾Ð¹ Ð¿Ð¾Ñ‚Ð¾Ðº
         try {
             Tracking::add_score(q.cost);
         }
         catch (...) {
-            // Èãíîðèðóåì — ïî òðåáîâàíèþ îòêàçîóñòîé÷èâîñòè
+            // Ð˜Ð³Ð½Ð¾Ñ€Ð¸Ñ€ÑƒÐµÐ¼ â€” Ð¿Ð¾ Ñ‚Ñ€ÐµÐ±Ð¾Ð²Ð°Ð½Ð¸ÑŽ Ð¾Ñ‚ÐºÐ°Ð·Ð¾ÑƒÑÑ‚Ð¾Ð¹Ñ‡Ð¸Ð²Ð¾ÑÑ‚Ð¸
         }
     }
     else {
-        cout << "Íåâåðíî. Ïðàâèëüíûé îòâåò: "
+        cout << "ÐÐµÐ²ÐµÑ€Ð½Ð¾. ÐŸÑ€Ð°Ð²Ð¸Ð»ÑŒÐ½Ñ‹Ð¹ Ð¾Ñ‚Ð²ÐµÑ‚: "
             << static_cast<char>('A' + q.correct) << " ("
             << q.options[q.correct] << ")\n";
     }
 
-    // Ïîêàçàòü òåêóùèå î÷êè (ìÿãêî, áåç ïàäåíèé)
+    // ÐŸÐ¾ÐºÐ°Ð·Ð°Ñ‚ÑŒ Ñ‚ÐµÐºÑƒÑ‰Ð¸Ðµ Ð¾Ñ‡ÐºÐ¸ (Ð¼ÑÐ³ÐºÐ¾, Ð±ÐµÐ· Ð¿Ð°Ð´ÐµÐ½Ð¸Ð¹)
     try {
         const auto& user = Tracking::current_user();
-        cout << "Î÷êè èãðîêà '" << user.name << "': " << user.score << "\n";
+        cout << "ÐžÑ‡ÐºÐ¸ Ð¸Ð³Ñ€Ð¾ÐºÐ° '" << user.name << "': " << user.score << "\n";
     }
     catch (...) {
-        // Íå êðèòè÷íî, ïðîäîëæàåì
+        // ÐÐµ ÐºÑ€Ð¸Ñ‚Ð¸Ñ‡Ð½Ð¾, Ð¿Ñ€Ð¾Ð´Ð¾Ð»Ð¶Ð°ÐµÐ¼
     }
 
     return answer;
