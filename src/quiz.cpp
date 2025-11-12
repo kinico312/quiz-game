@@ -1,5 +1,4 @@
-﻿
-#include <iostream>
+﻿#include <iostream>
 #include <fstream>
 #include <sstream>
 #include <vector>
@@ -18,7 +17,7 @@ std::map<std::pair<int, int>, Question> dictionary()
     std::map<std::pair<int, int>, Question> local_dict;
 
     if (!file.is_open()) {
-        std::cout << "ОШИБКА: Файл Questions.csv не найден!\n";
+        std::cout << "Не удалось открыть файл Questions.csv\n";
         return local_dict;
     }
 
@@ -51,29 +50,23 @@ std::map<std::pair<int, int>, Question> dictionary()
                 q.cost = std::stoi(cells[1]);
                 q.text = cells[2];
                 q.options = { cells[3], cells[4], cells[5], cells[6] };
+                q.flag = true;
 
+                // Просто берем значение из столбца - это уже A, B, C, D
                 std::string correct_str = cells[7];
+
+                // Удаляем запятую в конце если есть
                 if (!correct_str.empty() && correct_str.back() == ',') {
                     correct_str.pop_back();
                 }
 
-                try {
-                    q.correct = std::stoi(correct_str);
-                }
-                catch (...) {
-                    if (correct_str == cells[3]) q.correct = 0;
-                    else if (correct_str == cells[4]) q.correct = 1;
-                    else if (correct_str == cells[5]) q.correct = 2;
-                    else if (correct_str == cells[6]) q.correct = 3;
-                    else q.correct = 0;
-                }
-
+                // Сохраняем как есть
+                q.correct = correct_str;
 
                 local_dict[{row, col}] = q;
                 loaded_questions++;
 
                 col++;
-
                 if (col >= COLS_PER_ROW) {
                     col = 0;
                     row++;
@@ -81,16 +74,17 @@ std::map<std::pair<int, int>, Question> dictionary()
 
             }
             catch (const std::exception& e) {
-                std::cout << "ОШИБКА в строке " << line_count << ": " << e.what() << "\n";
+                std::cout << "Ошибка в строке " << line_count << ": " << e.what() << "\n";
             }
         }
         else {
-            std::cout << "ОШИБКА: В строке " << line_count << " только " << cells.size()
+            std::cout << "Ошибка в строке " << line_count << ": только " << cells.size()
                 << " колонок, ожидается 8\n";
         }
     }
     file.close();
 
+    std::cout << "Загружено вопросов: " << loaded_questions << "\n";
     questions_dict = local_dict;
     return local_dict;
 }

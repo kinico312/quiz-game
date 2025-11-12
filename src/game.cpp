@@ -1,21 +1,31 @@
-#include <iostream>
+﻿#include <iostream>
 #include "head.hpp"
 #include <cstdlib>
 #include <chrono>
 #include <thread>
+#include "multiple_players.hpp"
 
-void game() {
+using namespace std;
+
+void game()
+{
 	setlocale(LC_ALL, "RU");
 
-	Tracking::init_default_user("����� 1");
+	create_multiple_players_auto();
 
-	for (int i = 0; i <= 25; i++) { 
+	for (int i = 0; i <= 25; i++) {
 		print_questions_matrix();
 		std::cout << "\n";
-		char answer = display_question_with_answers();
-		std::this_thread::sleep_for(std::chrono::seconds(3));
-		system("cls");
+
+		int row, col;
+		cout << "Введите строку и столбец вопроса (0-4 0-4): ";
+		std::cin >> row >> col;
+		handleQuestion(row, col);
+		setQuestionFlag(row, col, false);
+		
 	}
-
-
+	system("cls");
 }
+
+
+

@@ -6,8 +6,6 @@ using namespace std;
 int main()
 {
     setlocale(LC_ALL, "RU");
-
-
     auto loaded_questions = dictionary();
 
     if (loaded_questions.empty()) {
@@ -16,7 +14,6 @@ int main()
     }
 
     cout << "загружено " << loaded_questions.size() << " вопросов!\n\n";
-
 
     game();
 

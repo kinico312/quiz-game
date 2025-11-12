@@ -1,26 +1,21 @@
 #include <iostream>
 #include "head.hpp"
-#include <string>
-#include <vector>
-#include <map>
 #include <iomanip>
 #include <cctype>
 
 using namespace std;
 
-char display_question_with_answers()
-{
-    int i, j;
-    cout << "Введите номер строки и столбца вопроса: ";
-    cin >> i >> j;
+extern map<pair<int, int>, Question> questions_dict;
 
-    auto key = make_pair(i, j);
-    auto it = questions_dict.find(key);
+pair<char, bool> display_question_with_answers(int row, int col)
+{
+    auto it = questions_dict.find({ row, col });
     if (it == questions_dict.end())
     {
-        cout << "Вопрос с координатами " << i << "; " << j << " не найден\n";
-        return 'X';
+        cout << "Вопрос с координатами  " << row << "; " << col << " не найден\n";
+        return { 'X', false };
     }
+
     const Question& q = it->second;
 
     const int WIDTH = 40;
@@ -42,43 +37,9 @@ char display_question_with_answers()
     if (answer != 'A' && answer != 'B' && answer != 'C' && answer != 'D')
     {
         cout << "Некорректный формат ответа, введите A, B, C или D\n";
-        return display_question_with_answers();
+        return { answer, false };
     }
 
-    int answerIndex = -1;
-    switch (answer) {
-    case 'A': answerIndex = 0; break;
-    case 'B': answerIndex = 1; break;
-    case 'C': answerIndex = 2; break;
-    case 'D': answerIndex = 3; break;
-    default: break;
-    }
-
-    bool isCorrect = (answerIndex == q.correct);
-    if (isCorrect) {
-        cout << "Верно! +" << q.cost << " очков\n";
-        // Обновляем очки пользователя, но не даём ошибкам рушить основной поток
-        try {
-            Tracking::add_score(q.cost);
-        }
-        catch (...) {
-            // Игнорируем — по требованию отказоустойчивости
-        }
-    }
-    else {
-        cout << "Неверно. Правильный ответ: "
-            << static_cast<char>('A' + q.correct) << " ("
-            << q.options[q.correct] << ")\n";
-    }
-
-    // Показать текущие очки (мягко, без падений)
-    try {
-        const auto& user = Tracking::current_user();
-        cout << "Очки игрока '" << user.name << "': " << user.score << "\n";
-    }
-    catch (...) {
-        // Не критично, продолжаем
-    }
-
-    return answer;
+    return { answer, true };
 }
+
