@@ -29,7 +29,7 @@ bool check_answer(char user_answer, int row, int col);
 void transfer_cat_question();
 void conduct_auction();
 
-// Функции случайного раунда
+
 void play_random_round();
 void load_random_round_file();
 std::map<std::pair<int, int>, Question> load_random_questions();
@@ -37,5 +37,4 @@ void prepare_random_questions(int count = 10);
 void print_random_questions_matrix();
 void handle_random_question(int index);
 
-// Финальные результаты
 void show_final_results();

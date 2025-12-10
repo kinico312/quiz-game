@@ -2,8 +2,6 @@
 #include "head.hpp"
 
 using namespace std;
-
-// Определения глобальных переменных
 string filename;
 map<pair<int, int>, Question> questions_dict;
 vector<Question> random_round_questions;
